@@ -99,18 +99,27 @@ int Keypad_WhichKeyIsPressed(void) {
    //	                                   row 4   : ‘*’=10, ‘0’=15, ‘#’=12
    //                                    no press: send NO_KEYPRESS
    if ( bGotKey ) {
-      iKey = ( iRow * NUM_COLS ) + iCol + 1;  // handle numeric keys ...
-      if ( iKey == KEY_ZERO )                 //    works for ‘*’, ‘#’ too
-         iKey = CODE_ZERO;
-      else if (iKey == 1)
-    	 iKey = 1;
-      else if (iKey == 2)
-    	 iKey = 2;
-      else if (iKey == 3)
-    	 iKey = 3;
-      else if (iKey == 4)
-    	 iKey = 4;
-      else if (iKey == 5)
+      iKey = ( iCol * 4 ) + iRow + 1;  // handle numeric keys ...
+      if (iKey == (1 | 2 | 3))			//Row 1 Columns 1-3		Numerical 1-3
+		iKey = iKey;
+	else if (iKey == (5 | 6 | 7))		//Row 2 Columns 1-3		Numerical 4-6
+		iKey = (iKey - 1);
+	else if (iKey == (9 | 10 | 11))		//Row 3 Columns 1-3		Numerical 7-9
+		iKey = (iKey - 2);
+	else if (iKey == 14)			//Row 4 Column 2		Numerical Zero
+		iKey = 0;
+	else if (iKey == 4)			//Row 1 Column 4		A
+		iKey = 10;
+	else if (iKey == 8)			//Row 2 Column 4		B
+		iKey = 11;
+	else if (iKey == 12)			//Row 3 Column 4		C
+		iKey = 12;
+	else if (iKey == 16)			//Row 4 Column 4		D
+		iKey = 13;
+	else if (iKey == 13)			//Row 4 Column 1		*
+		iKey = 14;
+	else if (iKey == 15)			//Row 4 Column 3		#
+		iKey = 15;
 
  	return( iKey );
     // turn on the LEDs?
